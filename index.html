@@ -1,218 +1,258 @@
-
-let container=document.querySelector(".container");
-async function getData(){
-    let response= await fetch("https://dummyjson.com/products");
-    let data=await response.json();
-    showData(data);
-    
-    //console.log(data);
-}
-
-// document.addEventListener("DOMContentLoaded", ()=>{
-//   let cartItems = JSON.parse(localStorage.getItem("CartProducts")) || [];
-//    if(cartItems.length > 0){
-    
-//    }
-// })
-
-function showData(item){
-    item.products.forEach((product)=>{
-        console.log(product);
-        let item=document.createElement("div");
-        item.classList.add("item");
-        container.append(item);
-        //Image
-        let img=document.createElement("img")
-        img.className+="img";
-        img.src=product.thumbnail;
-        item.appendChild(img);
-        let headingdiv=document.createElement("div");
-        headingdiv.className+="headingdiv"
-        item.appendChild(headingdiv);
-        let brand=document.createElement("span");
-        brand.innerText=` ${product.brand} :`;
-        headingdiv.appendChild(brand);
-        brand.className+="brand";
-        let title=document.createElement("span");
-        title.innerText= ` ${product.title}`;
-        title.className+="title";
-        headingdiv.appendChild(title);
-        let descriptionbox=document.createElement("div");
-        descriptionbox.className+="descriptionbox";
-        descriptionbox.innerText=product.description;
-        item.appendChild(descriptionbox);
-        let qualitybox=document.createElement("div");
-        qualitybox.className+="qualitybox";
-        item.appendChild(qualitybox);
-        let rating=document.createElement('span');
-        rating.innerHTML=`<span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>`;
-        rating.className+="rating"
-        qualitybox.appendChild(rating);
-        let discountPercentage=document.createElement("span");
-        discountPercentage.className+="discountPercentage";
-        discountPercentage.innerText=`${product.discountPercentage} off`;
-        qualitybox.appendChild(discountPercentage);
-        let price=document.createElement("span");
-        price.innerHTML="<span>&#8377;</span>  "+product.price;
-        price.className+="price";
-        item.appendChild(price);
-        
-        
-    let btn=document.createElement("button");
-    btn.className+="btn";
-    btn.innerText="Add to Cart"
-    item.appendChild(btn);
-
-
-    // clicking on button
-    btn.addEventListener('click',(event)=>{
-        //console.log(product.id);// printing the product id
-        getSingleProduct(product.id);
-       
-        let cartItems = JSON.parse(localStorage.getItem("CartProducts")) || [];
-
-        // Check if the item already exists in the cart items array
-        let existingItem = cartItems.find((item) => item.id == product.id);
-      
-        if (existingItem) {
-          // Increment the quantity of the existing item
-          existingItem.quantity += 1;
-        } else {
-          // Add the new item to the cart items array
-          product.quantity = 1;
-          cartItems.push(product);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * { 
+        box-sizing: border-box;
+        margin: 0px;
+        padding: 0px;
         }
+        
+
       
-        // Update the local storage
-        localStorage.setItem("CartProducts", JSON.stringify(cartItems));
-      
-        alert("Product added to cart . ThankYou  Please Enjoy Your Shopping");
+.container1{
+    width: 100%;
+    box-sizing: border-box;
+}
+.navbar{
+    display:flex;
+    width: 100%;
+    height:70px;
+    background-color:white;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.138);
+    position: sticky;
+    top: 0px;
+}
+.alinks{
+    display: flex;
+    width: 700px;
+    height: 60px;
+    margin: 5px;
+ 
+    margin-inline-start: 50px;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+.logo{
+width: 60px;
+height: 60px;
+margin: 5px;
 
-
-
-
-        btn.style.display='none';
-        let quantityBox=document.createElement("div");
-        quantityBox.classList.add("qtyBox");
-        
-        item.appendChild(quantityBox);
-        let decreasebtn=document.createElement("button");
-        decreasebtn.classList.add("decreasebtn");
-        decreasebtn.innerText="-";
-        quantityBox.appendChild(decreasebtn);
-        let qtyValue=document.createElement("span");
-        qtyValue.innerText="0"
-        qtyValue.classList.add("qtyValue");
-        quantityBox.appendChild(qtyValue);
-        let increaseQty=document.createElement("button");
-        increaseQty.classList.add("increaseQty");
-        increaseQty.innerText="+";
-        quantityBox.appendChild(increaseQty);
-
-        let currentItem = cartItems.find((item)=>{
-                  return item.id === product.id
-        })
-        
-        qtyValue.innerText=currentItem.quantity || 1;
-         
-        decreasebtn.addEventListener('click',()=>{
-          let cartItems = JSON.parse(localStorage.getItem("CartProducts")) || [];
-          let currentItem = cartItems.find((item)=>{
-            return item.id === product.id
-  })
-  //debugger;
-       currentItem.quantity--;
-       qtyValue.innerText=currentItem.quantity;
-       localStorage.setItem("CartProducts", JSON.stringify(cartItems));
-       
-       if(currentItem.quantity==0)
-       {
-        quantityBox.style.display="none";
-        btn.style.display="block"
-        let id=cartItems.indexOf(currentItem)
-        console.log(id);
-        cartItems.splice(id,1);
-        // removeItem(id);
-        localStorage.setItem('CartProducts', JSON.stringify( cartItems) );
-        window.location.reload();
-       }
-          
-
-
-          
-      
-
-        })
-        increaseQty.addEventListener('click',()=>{
-          currentItem.quantity++;
-          qtyValue.innerText=currentItem.quantity;
-          localStorage.setItem("CartProducts", JSON.stringify(cartItems));
-             
+margin-inline-start: 100px;
+}
+a{
+    margin-inline: 15px;
+    text-decoration:none;
+    font-size: 15px;
+    font-weight:bold;
+    color: black;
+}
+a:hover{
+    text-decoration:underline;
    
-   
-             
-         
-   
-           })
+}
 
-
-        
-
-      });
-      
-   
-
-
-
-
-        
-        
-    })
-
+input[type="text"]{
+    background-color: white;
+    color: grey;
+    width:280px;
+    height: 40px;
+    margin: 15px;
+    font-size: 15px;
+    border: 1px grey solid;
+    border-radius: 10px;
+    text-align: center;
+    margin-inline-start: 50px;
+}
+.pfcontainer{
+     display: flex;
+    justify-content: space-around;
+    width: 300px;
+    height: 60px;
+    margin: 5px;
     
+     margin-inline: 60px;
 }
-
-
-
-function removeItem(id){
-  debugger;
-  cartItems.splice(id,1);
-  localStorage.setItem( 'CartProducts' , JSON.stringify(cartItems));
-          window.location.reload();
-  console.log("item Removed");
-  alert("item removedss")
-          
+.pf{
+    margin:20px
 }
+.section1{
+    width: 100%;
+    display: flex;
+    height: 300px;
 
-async function getSingleProduct(id){
-    let response= await fetch(`https://dummyjson.com/products/${id}`);
-    let data=await response.json();   
-    data.quantity=1;
-    console.log(data);
-
-   // to check is product item aleready in cart
-   let cartItems=JSON.parse(localStorage.getItem("CartProducts")) ||[];
-   if (cartItems.find((item) => item.id == data.id)) {
-  // alert("This Product Is Already In Your Cart")
-  
-
-   
-
-
-   
-    return ;
-
-
-   }
-   else{
-   
-
-    cartItems.push(data)
-    localStorage.setItem("CartProducts",JSON.stringify(cartItems))
-    alert("Product added to cart . ThankYou  Please Enjoy Your Shopping")
 }
-}
-getData();
+        .container{
+            width:100%;
+            height:auto;
+           
+            display:flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            
+        }
+        .item{
+            width: 310px;
+            padding: 3px;
+            height: 600px;
+            border: 1px solid rgb(11, 11, 11);
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .img{
+            width:300px;
+            height: 250px;
+            border-radius: 5px;
+        }
+        .headingdiv{
+            width:300px;
+            padding: 5px;
+            margin-block:2px ;
+            height: 60px;
+           
+        }
+        .brand{
+            font-size: 20px;
+            font-weight: 400;
+
+        }
+        .title{
+            font-size: 23px;
+            margin-left: 5px;
+
+        }
+        .descriptionbox{
+            width:300px;
+            padding: 5px;
+            margin-block:5px ;
+            margin-inline: 1px;
+            height: 120px;
+           
+            font-size: 20px;
+            
+        }
+        .qualitybox{
+            width:300px;
+            padding:5px;
+            height: 40px;
+            display: flex;
+            margin-block:5px ;
+            margin-inline: 1px;
+            
+        }
+        .raing,.checked{
+            color: orange;
+        }
+        .discountPercentage{
+            font-size: 15px;
+            color: red;
+            margin-left: 30px;
+            
+        }
+        .price{
+            font-size: 25px;
+            margin-left: 20px;
+        }
+        .btn{
+            width: 300px;
+            height: 60px;
+            border-radius: 10px;
+            font-size: 25px;
+            background-color:blueviolet;
+            color: beige;
+            cursor: pointer;
+        }
+        .qtyBox{
+            width: 300px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 10px;
+            font-size: 25px;
+            
+            color: beige;
+            cursor: pointer;
+            display: flex;
+            padding-top: 3px;
+                    
+        }
+        nav{
+            text-align: center;
+            border: 1 px solid black;
+        }
+        .decreasebtn{
+            width:50px;
+            height:50px;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+            font-size: 20px;
+            margin-inline: 40px;
+        }
+        .qtyValue{
+            width: 50px;
+            height: 50px;
+           margin-inline-end:40px ;
+            color: black;
+            font-weight: bold;
+            font-size: 40px;
+        }
+        .increaseQty{
+            width:50px;
+            height:50px;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+            font-size: 20px;
+           
+        }
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <div class="navbar"> <!-- nav bar-->
+           <div class="logo">
+             <img src="https://cdn.iconscout.com/icon/free/png-512/free-myntra-2709168-2249158.png?f=webp&w=256" alt="" width="60" height="60">
+           </div>
+           <div class="alinks">
+               <a href="#">MEN</a>
+               <a href="#">WOMEN</a>
+               <a href="#">KIDS</a>
+               <a href="#"> LIVING</a>
+               <a href="#">BEAUTY</a>
+               <a href="#">STUDIO <sup style="color:red;font-size: smaller;"> NEW</sup></a>
+        
+           </div>
+           <div class="searchbar">
+               <input type="text" placeholder="Search for Products Brands and more">
+           </div>
+           <div class="pfcontainer">
+               <div style="width:40px; height: 40px; ">
+                   <img id="pf" src="https://cdn-icons-png.flaticon.com/128/8162/8162983.png" alt="" width="40" height="40px" >
+                   <span style="font-weight: bold;">Profile</span>
+                   
+               </div>
+               <div style="width:40px; height: 40px;  ">
+                   <img id="pf" src="https://t4.ftcdn.net/jpg/01/25/83/03/240_F_125830316_m9Grtzjlt2I5Gp4qpDQq5G5BSXR5d9ZF.jpg" alt="" width="40" height="40px" >
+                   <span style="font-weight: bold;">WishList</span>
+                   
+               </div>
+               <div style="width:40px; height: 40px;  ">
+                   <img id="pf" src="https://cdn-icons-png.flaticon.com/128/6737/6737602.png" alt="" width="40" height="40px" href="cart.html" target="_blank" >
+                   <span style="font-weight: bold;"><a href="cart.html" target="_blank">Bag</a></span>
+                   
+               </div>
+           </div>
+           </div><!-- nav bar ends-->
+    <div class="container"></div>
+    <script src="index.js"></script>
+</body>
+</html>
+
+
+
+
