@@ -119,10 +119,11 @@ function showData(item){
         qtyValue.innerText=currentItem.quantity || 1;
          
         decreasebtn.addEventListener('click',()=>{
-  //         let cartItems = JSON.parse(localStorage.getItem("CartProducts")) || [];
-  //         let currentItem = cartItems.find((item)=>{
-  //           return item.id === product.id
-  // })
+          let cartItems = JSON.parse(localStorage.getItem("CartProducts")) || [];
+          let currentItem = cartItems.find((item)=>{
+            return item.id === product.id
+  })
+  //debugger;
        currentItem.quantity--;
        qtyValue.innerText=currentItem.quantity;
        localStorage.setItem("CartProducts", JSON.stringify(cartItems));
@@ -131,6 +132,12 @@ function showData(item){
        {
         quantityBox.style.display="none";
         btn.style.display="block"
+        let id=cartItems.indexOf(currentItem)
+        console.log(id);
+        cartItems.splice(id,1);
+        // removeItem(id);
+        localStorage.setItem('CartProducts', JSON.stringify( cartItems) );
+        window.location.reload();
        }
           
 
@@ -168,6 +175,17 @@ function showData(item){
     
 }
 
+
+
+function removeItem(id){
+  debugger;
+  cartItems.splice(id,1);
+  localStorage.setItem( 'CartProducts' , JSON.stringify(cartItems));
+          window.location.reload();
+  console.log("item Removed");
+  alert("item removedss")
+          
+}
 
 async function getSingleProduct(id){
     let response= await fetch(`https://dummyjson.com/products/${id}`);
